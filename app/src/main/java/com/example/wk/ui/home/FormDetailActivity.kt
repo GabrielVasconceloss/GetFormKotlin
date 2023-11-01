@@ -5,25 +5,27 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import com.example.wk.Form
 import com.example.wk.R
-import java.text.Normalizer
+import com.google.android.material.snackbar.Snackbar
 
 class FormDetailActivity : AppCompatActivity() {
 
-    private lateinit var form: Form
+    private var form: Form? = null
+    private lateinit var btnDone: Button
+
 
     companion object{
         private val TASK_DETAIL_EXTRA = "task.extra.detail"
 
-        fun start(context: Context, form: Form): Intent {
+        fun start(context: Context, form: Form?): Intent {
             val intent = Intent(context, FormDetailActivity::class.java)
                 .apply {
                     putExtra(TASK_DETAIL_EXTRA, form)
@@ -38,10 +40,39 @@ class FormDetailActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        form = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Form
-        val tvTitle = findViewById<TextView>(R.id.tv_form_title_details)
+        form = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Form?
 
-        tvTitle.text = form.title
+
+
+        var edtTitle = findViewById<EditText>(R.id.edt_Form_Title)
+        var edtDescrption = findViewById<EditText>(R.id.edt_Form_Description)
+        btnDone = findViewById(R.id.btn_done)
+
+        if(form != null){
+            edtTitle.setText(form!!.title)
+            edtDescrption.setText(form!!.description)
+        }
+
+        btnDone.setOnClickListener{
+            val title = edtTitle.text.toString()
+            val description = edtDescrption.text.toString()
+
+            if(title.isNotEmpty() && description.isNotEmpty()){
+                if(form == null){
+                    addOrUpdateForm(0, title, description, ActionType.CREATE)
+                }else{
+                    addOrUpdateForm(form!!.id, title, description, ActionType.UPDATE)
+                }
+            }else{
+                showMessage(it, "Please fill in all fields")
+            }
+
+        }
+    }
+
+    private fun addOrUpdateForm(id: Int,title: String, description: String, actionType: ActionType){
+        val form = Form(id, title, description)
+        returnAction(form, actionType)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -55,19 +86,32 @@ class FormDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete_form -> {
-                var intent = Intent()
-                    .apply {
-                        val actionType = ActionType.DELETE
-                        val formAction = FormAction(form, actionType)
-                        putExtra(FORM_ACTION_RESULT, formAction)
-                    }
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+                if(form != null){
+                    returnAction(form!!, ActionType.DELETE)
+                }
+                else{
+                    showMessage(btnDone, "Item not found")
+                }
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
+
+    }
+    private fun returnAction(form: Form, actionType: ActionType){
+        var intent = Intent()
+            .apply {
+                val formAction = FormAction(form!!, actionType.name)
+                putExtra(FORM_ACTION_RESULT, formAction)
+            }
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    private fun showMessage(view: View, message: String){
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+            .setAction("Action", null)
+            .show()
     }
 
 

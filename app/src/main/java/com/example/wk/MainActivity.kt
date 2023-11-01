@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
             val user = databaseHelper.getUser(username, password)
 
+
             if (user != null) {
                 val snackbar = Snackbar.make(loginButton, "Usuario Conectado", Snackbar.LENGTH_SHORT)
                 snackbar.show()
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val snackbar = Snackbar.make(loginButton, "Usuario Não encontrado", Snackbar.LENGTH_SHORT)
                 snackbar.show()
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
             }
 
         }

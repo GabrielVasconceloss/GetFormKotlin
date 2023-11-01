@@ -10,8 +10,7 @@
     <TextView
         android:id="@+id/tv_form_title"
         tools:text="Title Sample"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/Title3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
