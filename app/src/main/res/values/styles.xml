@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilo base do aplicativo -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Cor da barra superior (ActionBar) -->
+        <item name="colorPrimary">#FF0000</item> <!-- Vermelho como exemplo -->
+
+        <!-- Cor da barra de status -->
+        <item name="colorPrimaryDark">#00FF00</item> <!-- Verde como exemplo -->
+
+        <!-- Cor da barra de navegação (se aplicável) -->
+        <item name="colorAccent">#0000FF</item> <!-- Azul como exemplo -->
+    </style>
+</resources>
