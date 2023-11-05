@@ -7,6 +7,10 @@ import com.google.android.material.snackbar.Snackbar
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
@@ -28,6 +32,17 @@ class MainActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             val user = databaseHelper.getUser(username, password)
+
+            val dataBase = Room.databaseBuilder(
+                applicationContext,
+                AppDataBase::class.java, "getform-database").build()
+
+            val dao = dataBase.formDao()
+            val form = Form(title = "Americanas", description = "Mercado de prego foi de arrasta para cima")
+            CoroutineScope(IO).launch {
+                dao.insert(form)
+            }
+
 
 
             if (user != null) {

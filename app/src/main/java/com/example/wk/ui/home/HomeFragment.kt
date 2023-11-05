@@ -96,6 +96,7 @@ class HomeFragment : Fragment() {
         adapter.submitList(FormList)
         recyclerView.adapter = adapter
 
+
         val fab: FloatingActionButton = binding.fabAdd
         fab.setOnClickListener {
             openFormListDetail(null)

@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/Blue_dark_icetar"
+        android:fontFamily="@font/rubik_medium"
         app:titleTextColor="?android:attr/windowBackground"
         app:subtitleTextColor="?android:attr/windowBackground"
         tools:ignore="MissingConstraints"/>

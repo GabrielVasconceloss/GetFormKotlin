@@ -38,7 +38,7 @@ class FormDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_form_detail)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+
 
         form = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Form?
 
@@ -51,6 +51,7 @@ class FormDetailActivity : AppCompatActivity() {
         if(form != null){
             edtTitle.setText(form!!.title)
             edtDescrption.setText(form!!.description)
+            setSupportActionBar(toolbar)
         }
 
         btnDone.setOnClickListener{
