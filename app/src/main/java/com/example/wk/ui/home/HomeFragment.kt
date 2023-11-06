@@ -13,24 +13,29 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import com.example.wk.AppDataBase
 import com.example.wk.databinding.FragmentHomeBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class HomeFragment : Fragment() {
 
-    private var FormList = arrayListOf(
-            Form(0,"Americanas", "Mercado de prego"),
-            Form(1,"Flash", "Celular Barato, vem comprar"),
-            Form(2,"Extra", "Falido nãod a para comprar"),
-            Form(3,"Acai", "Nem sei o que é isso amigo"),
-            Form(4,"Naruto", "È um anime muito bom"),
-    )
-
     private lateinit var ctnContent: LinearLayout
 
     private val adapter = fomrListAdapter(::onListItemClicked)
+
+    private val dataBase by lazy {
+            Room.databaseBuilder(
+                requireContext(),
+                AppDataBase::class.java, "getform-database"
+            ).build()
+    }
+    private val dao by lazy { dataBase.formDao() }
 
     private val rusultActivity = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -41,39 +46,13 @@ class HomeFragment : Fragment() {
             val form: Form = formAction.form
 
             if(formAction.actionType == ActionType.DELETE.name){
-                val newList = arrayListOf<Form>()
-                    .apply {
-                        addAll(FormList)
-                    }
-                newList.remove(form)
-                if(newList.size == 0){
-                    ctnContent.visibility = View.VISIBLE
-                }
-                adapter.submitList(newList)
-                FormList = newList
+                deleteIntoDataBase(form)
                 showMessage(ctnContent, "Item deleted ${form.title}")
             }else if(formAction.actionType == ActionType.CREATE.name) {
-                val newList = arrayListOf<Form>()
-                    .apply {
-                        addAll(FormList)
-                    }
-                newList.add(form)
-                adapter.submitList(newList)
-                FormList = newList
+                insertIntoDataBase(form)
                 showMessage(ctnContent, "Item added ${form.title}")
             }else if(formAction.actionType == ActionType.UPDATE.name) {
-                var tempEmpyList = arrayListOf<Form>()
-
-                FormList.forEach {
-                    if (it.id == form.id) {
-                        val newItem = Form(it.id, form.title, form.description)
-                        tempEmpyList.add(newItem)
-                    }else{
-                        tempEmpyList.add(it)
-                    }
-                }
-                adapter.submitList(tempEmpyList)
-                FormList = tempEmpyList
+                updateIntoDataBase(form)
                 showMessage(ctnContent, "Item updated ${form.title}")
             }
         }
@@ -91,9 +70,8 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         ctnContent = binding.ctnContent
-
         val recyclerView: RecyclerView = binding.rvListForm
-        adapter.submitList(FormList)
+        listFromDataBase()
         recyclerView.adapter = adapter
 
 
@@ -114,6 +92,39 @@ class HomeFragment : Fragment() {
         rusultActivity.launch(intent)
     }
 
+    private fun deleteIntoDataBase(form: Form){
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.delete(form.id)
+            listFromDataBase()
+        }
+    }
+    private fun updateIntoDataBase(form: Form){
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.update(form)
+            listFromDataBase()
+        }
+    }
+    private fun insertIntoDataBase(form: Form){
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.insert(form)
+            listFromDataBase()
+        }
+    }
+
+    private fun listFromDataBase(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val myDataBaseList: List<Form> = dao.getAll()
+            adapter.submitList(myDataBaseList)
+            CoroutineScope(Dispatchers.Main).launch {
+                if(myDataBaseList.size == 0){
+                    ctnContent.visibility = View.VISIBLE
+                }else{
+                    ctnContent.visibility = View.GONE
+                }
+            }
+        }
+
+    }
     private fun showMessage(view: View, message: String){
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             .setAction("Action", null)
