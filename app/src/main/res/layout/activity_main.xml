@@ -56,4 +56,12 @@
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/Blue_dark_icetar"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="By Gabriel Vasconcelos"
+        android:textSize="19dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
