@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Estilo base do aplicativo -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Cor da barra superior (ActionBar) -->
         <item name="colorPrimary">#FF0000</item> <!-- Vermelho como exemplo -->
 
