@@ -1,18 +1,14 @@
-package com.example.wk
+package com.example.wk.presentation
 import android.content.Intent
-import com.example.wk.Database.DatabaseHelper
-import com.example.wk.model.User
+import com.example.wk.data.DatabaseHelper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import androidx.room.Room
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
+import com.example.wk.R
 
-class MainActivity : AppCompatActivity() {
+class MainLogin : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button

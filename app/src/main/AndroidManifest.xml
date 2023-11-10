@@ -16,11 +16,11 @@
             android:name=".ui.home.FormDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Home"
+            android:name=".presentation.Home"
             android:exported="true"
             android:label="@string/title_activity_home" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.wk
+package com.example.wk.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -2,8 +2,8 @@ package com.example.wk.ui.home
 
 import android.app.Activity
 
-import com.example.wk.Form
-import com.example.wk.fomrListAdapter
+import com.example.wk.data.Form
+import com.example.wk.presentation.fomrListAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
-import com.example.wk.AppDataBase
+import com.example.wk.data.AppDataBase
 import com.example.wk.databinding.FragmentHomeBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar

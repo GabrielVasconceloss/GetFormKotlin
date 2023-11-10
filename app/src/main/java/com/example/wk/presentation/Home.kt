@@ -1,4 +1,4 @@
-package com.example.wk
+package com.example.wk.presentation
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
+import com.example.wk.R
 import com.example.wk.databinding.ActivityHomeBinding
 
 class Home : AppCompatActivity() {

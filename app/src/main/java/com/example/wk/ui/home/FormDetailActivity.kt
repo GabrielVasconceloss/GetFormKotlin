@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
-import com.example.wk.Form
+import com.example.wk.data.Form
 import com.example.wk.R
 import com.google.android.material.snackbar.Snackbar
 
